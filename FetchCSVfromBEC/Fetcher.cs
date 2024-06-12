@@ -32,9 +32,8 @@ namespace FetchCSVfromBEC
             try
             {
                 var fileBytes = await _httpClient.GetByteArrayAsync(url);
-                var fileName = Path.GetFileName(url);
                 response.StatusCode = HttpStatusCode.OK;
-                response.Headers.Add("Content-Disposition", $"attachment; filename={fileName}");
+                response.Headers.Add("Content-Disposition", $"attachment; filename=file.csv");
                 await response.Body.WriteAsync(fileBytes, 0, fileBytes.Length);
                 return response;
             }
