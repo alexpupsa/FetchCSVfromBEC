@@ -18,9 +18,8 @@ namespace FetchCSVfromBEC
         [Function("fetch-csv")]
         public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req)
         {
-            var response = req.CreateResponse();
-
             var url = req.Query["url"];
+            var response = req.CreateResponse();
 
             if (string.IsNullOrEmpty(url))
             {
