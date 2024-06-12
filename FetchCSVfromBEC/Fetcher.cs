@@ -8,12 +8,11 @@ namespace FetchCSVfromBEC
     public class Fetcher
     {
         private readonly ILogger _logger;
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly HttpClient _httpClient = new HttpClient();
 
-        public Fetcher(ILoggerFactory loggerFactory, IHttpClientFactory httpClientFactory)
+        public Fetcher(ILoggerFactory loggerFactory)
         {
             _logger = loggerFactory.CreateLogger<Fetcher>();
-            _httpClientFactory = httpClientFactory;
         }
 
         [Function("fetch-csv")]
@@ -32,8 +31,7 @@ namespace FetchCSVfromBEC
 
             try
             {
-                var httpClient = _httpClientFactory.CreateClient();
-                var fileBytes = await httpClient.GetByteArrayAsync(url);
+                var fileBytes = await _httpClient.GetByteArrayAsync(url);
                 var fileName = Path.GetFileName(url);
                 response.StatusCode = HttpStatusCode.OK;
                 response.Headers.Add("Content-Disposition", $"attachment; filename={fileName}");
